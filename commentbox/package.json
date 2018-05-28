@@ -1,0 +1,38 @@
+{
+  "name": "commentbox",
+  "version": "0.1.0",
+  "description": "A generic comment box made in React",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaunpersad/commentbox.git"
+  },
+  "keywords": [
+    "commentbox",
+    "comment-box",
+    "contentful"
+  ],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/shaunpersad/commentbox/issues"
+  },
+  "homepage": "https://github.com/shaunpersad/commentbox#readme",
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "contentful": "^6.1.1",
+    "contentful-management": "^5.1.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {},
+  "license": "ISC"
+}

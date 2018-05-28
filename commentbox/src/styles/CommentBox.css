@@ -1,0 +1,34 @@
+.commentbox .form-element {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.commentbox .form-element textarea {
+
+    width: 500px;
+}
+
+.commentbox .body {
+
+}
+
+.commentbox ul.comments {
+    padding: 0;
+    margin: 0;
+}
+
+.commentbox ul.comments li.comment {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.commentbox ul.comments li.comment.replying-to > div {
+    background: gray;
+}
+
+.commentbox ul.comments li.comment .comment-content {
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+}

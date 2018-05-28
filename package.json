@@ -1,0 +1,33 @@
+{
+  "name": "react-commentbox",
+  "version": "1.0.0",
+  "description": "A generic comment box made in React",
+  "main": "commentbox.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaunpersad/commentbox.git"
+  },
+  "keywords": [],
+  "author": "Shaun Persad <shaun@shaunasaservice.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/shaunpersad/commentbox/issues"
+  },
+  "homepage": "https://github.com/shaunpersad/commentbox#readme",
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "path": "^0.12.7",
+    "prop-types": "^15.6.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  }
+}

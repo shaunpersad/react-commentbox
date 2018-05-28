@@ -1,0 +1,25 @@
+version: '2.1'
+services:
+
+  back-end:
+    build: .
+    image: shaunpersad/commentbox-back-end
+    command: node api/app.js
+    env_file: .env.local
+    ports:
+      - '1337:1337'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  front-end:
+    build: .
+    container_name: commentbox-front-end
+    image: shaunpersad/commentbox-front-end
+    command: npm start
+    env_file: .env.local
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules

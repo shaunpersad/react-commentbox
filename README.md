@@ -1,2 +1,2 @@
-# comment-box
+# commentbox
 A serverless comment box system

@@ -1,6 +1,6 @@
 {
   "name": "react-commentbox",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generic comment box made in React",
   "main": "commentbox.js",
   "scripts": {

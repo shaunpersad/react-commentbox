@@ -291,18 +291,22 @@ class CommentBox extends React.Component {
 
     static getComments() {
 
+        return new Promise();
     }
 
     static comment(commentBody) {
 
+        return new Promise();
     }
 
     static reply(replyBody, commentIdToReplyTo) {
 
+        return new Promise();
     }
 
     static flag(commentId) {
 
+        return new Promise();
     }
 
     static get defaultProps() {
@@ -317,11 +321,9 @@ class CommentBox extends React.Component {
         } = this;
 
         return {
-            usersHaveAvatars: true,
+            usersHaveAvatars: false,
             levelPadding: 15,
-            loadingContent: (
-                <span>Loading...</span>
-            ),
+            loadingContent: 'Loading...',
             expandButtonContent: '[+]',
             contractButtonContent: '[-]',
             showReplyButtonContent: 'reply',

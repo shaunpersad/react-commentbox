@@ -25,16 +25,16 @@ const defaultProps = {
     disabledComponent: React.Component, // what to show when the user isn't logged in or there's no author info to use
     normalizeComment: (comment) => { // turns your comment object into an object the component expects
         return {
-            id,
-            flagged,
-            bodyDisplay,
-            userNameDisplay,
-            timestampDisplay,
-            belongsToAuthor,
-            parentCommentId            
+            id, // a unique id for this comment. used as the "key" prop
+            flagged, // is this comment flagged for moderation?
+            bodyDisplay, // a string or component to be displayed as the comment body
+            userNameDisplay, // a string or component to be displayed as the user name
+            timestampDisplay, // a string or component to be displayed as the timestamp
+            belongsToAuthor, // does this comment belong to the currently logged in author?
+            parentCommentId // if this comment is a reply to another comment, set it's id here           
         };
     },
-    getComments: () => new Promise(), // replace with a function call that fetches comments
+    getComments: () => new Promise(), // replace with a function call that fetches comments in oldest to newest order
     comment: (body) => new Promise(), // replace with a function call that creates a comment
     reply: (body, commentId) => new Promise(), // replace with a function call that creates a reply to a comment
     flag: (commentId) => new Promise() // replace with a function call to flag a comment
@@ -42,7 +42,7 @@ const defaultProps = {
 ```
 
 - The `getComments` function should resolve to an array of comments. Each element in that array is run through the supplied
-`normalizeComment` function.
+`normalizeComment` function. Comments must be in order of oldest to newest in order to properly determine comment nesting.
 - the `comment` function should be replaced with your ajax call to create the comment. It doesn't need to resolve to anything.
 - the `reply` function is similar to the `comment` function, except it gives you the `commentId` of the comment the reply is for.
 - the `flag` function should be another ajax call to flag that comment.
@@ -66,9 +66,10 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            authorName: null
+            authorName: '',
+            authorNameIsSet: false
         };
-        this.getAuthorName = this.getAuthorName.bind(this);
+        this.onChangeAuthorName = this.onChangeAuthorName.bind(this);
         this.getComments = this.getComments.bind(this);
         this.comment = this.comment.bind(this);
         this.reply = this.reply.bind(this);
@@ -76,13 +77,20 @@ class App extends React.Component {
         this.disabledComponent = this.disabledComponent.bind(this);
     }
 
-    getAuthorName(postComment) {
+    onChangeAuthorName(e) {
 
-        return (e) => {
-            this.setState({
-                authorName: prompt('Please enter your name:')
-            }, postComment);
-        };
+        this.setState({
+            authorName: e.currentTarget.value
+        });
+    }
+
+    onSubmitAuthorName(e) {
+
+        e.preventDefault();
+
+        this.setState({
+            authorNameIsSet: true
+        });
     }
 
     getComments() {
@@ -140,10 +148,13 @@ class App extends React.Component {
         });
     }
 
-    disabledComponent({ postComment, postButtonContent }) {
+    disabledComponent() {
 
         return (
-            <button onClick={this.getAuthorName(postComment)}>{postButtonContent}</button>
+            <form>
+                <input type="text" value={this.state.authorName} onChange={this.onChangeAuthorName} />
+                <button type="submit">Submit</button>
+            </form>
         );
     }
 
@@ -156,7 +167,7 @@ class App extends React.Component {
                 </h2>
                 <CommentBox
                     usersHaveAvatars={false}
-                    disabled={!this.state.authorName}
+                    disabled={!this.state.authorNameIsSet}
                     getComments={this.getComments}
                     normalizeComment={this.normalizeComment}
                     comment={this.comment}

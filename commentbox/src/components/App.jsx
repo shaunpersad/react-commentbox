@@ -8,9 +8,10 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            authorName: null
+            authorName: '',
+            authorNameIsSet: false
         };
-        this.getAuthorName = this.getAuthorName.bind(this);
+        this.onChangeAuthorName = this.onChangeAuthorName.bind(this);
         this.getComments = this.getComments.bind(this);
         this.comment = this.comment.bind(this);
         this.reply = this.reply.bind(this);
@@ -18,13 +19,20 @@ class App extends React.Component {
         this.disabledComponent = this.disabledComponent.bind(this);
     }
 
-    getAuthorName(postComment) {
+    onChangeAuthorName(e) {
 
-        return (e) => {
-            this.setState({
-                authorName: prompt('Please enter your name:')
-            }, postComment);
-        };
+        this.setState({
+            authorName: e.currentTarget.value
+        });
+    }
+
+    onSubmitAuthorName(e) {
+
+        e.preventDefault();
+
+        this.setState({
+            authorNameIsSet: true
+        });
     }
 
     getComments() {
@@ -82,10 +90,13 @@ class App extends React.Component {
         });
     }
 
-    disabledComponent({ postComment, postButtonContent }) {
+    disabledComponent() {
 
         return (
-            <button onClick={this.getAuthorName(postComment)}>{postButtonContent}</button>
+            <form>
+                <input type="text" value={this.state.authorName} onChange={this.onChangeAuthorName} />
+                <button type="submit">Submit</button>
+            </form>
         );
     }
 
@@ -98,7 +109,7 @@ class App extends React.Component {
                 </h2>
                 <CommentBox
                     usersHaveAvatars={false}
-                    disabled={!this.state.authorName}
+                    disabled={!this.state.authorNameIsSet}
                     getComments={this.getComments}
                     normalizeComment={this.normalizeComment}
                     comment={this.comment}

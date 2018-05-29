@@ -153,6 +153,9 @@ class CommentBox extends React.Component {
         if (comment.belongsToAuthor) {
             classNames.push('belongs-to-author');
         }
+        if (comment.flagged) {
+            classNames.push('flagged');
+        }
 
         return (
             <li className={classNames.join(' ')} key={comment.id}>
@@ -235,10 +238,7 @@ class CommentBox extends React.Component {
                                             </div>
                                         </form>
                                         {this.props.disabled ? (
-                                            <this.props.disabledComponent
-                                                postComment={this.reply}
-                                                postButtonContent={this.props.postReplyButtonContent}
-                                            />
+                                            <this.props.disabledComponent {...this.props} />
                                         ) : null}
                                     </div>
                                 ) : null
@@ -344,10 +344,7 @@ class CommentBox extends React.Component {
                         </div>
                     </form>
                     {this.props.disabled ? (
-                        <this.props.disabledComponent
-                            postComment={this.comment}
-                            postButtonContent={this.props.postCommentButtonContent}
-                        />
+                        <this.props.disabledComponent {...this.props} />
                     ) : null}
                 </div>
                 <div className="body">
@@ -393,7 +390,7 @@ class CommentBox extends React.Component {
         return new Promise();
     }
 
-    static disabledComponent({ postComment, postButtonContent }) {
+    static disabledComponent(props) {
 
         return (
             <div>

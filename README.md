@@ -1,4 +1,4 @@
-# commentbox
+# react-commentbox
 A generic comment box made in React
 
 ## Installation

@@ -12,6 +12,7 @@ class App extends React.Component {
             authorNameIsSet: false
         };
         this.onChangeAuthorName = this.onChangeAuthorName.bind(this);
+        this.onSubmitAuthorName = this.onSubmitAuthorName.bind(this);
         this.getComments = this.getComments.bind(this);
         this.comment = this.comment.bind(this);
         this.reply = this.reply.bind(this);
@@ -93,8 +94,13 @@ class App extends React.Component {
     disabledComponent() {
 
         return (
-            <form>
-                <input type="text" value={this.state.authorName} onChange={this.onChangeAuthorName} />
+            <form onSubmit={this.onSubmitAuthorName}>
+                <input
+                    type="text"
+                    placeholder="Enter your name to post a comment"
+                    value={this.state.authorName}
+                    onChange={this.onChangeAuthorName}
+                />
                 <button type="submit">Submit</button>
             </form>
         );

@@ -70,6 +70,7 @@ class App extends React.Component {
             authorNameIsSet: false
         };
         this.onChangeAuthorName = this.onChangeAuthorName.bind(this);
+        this.onSubmitAuthorName = this.onSubmitAuthorName.bind(this);
         this.getComments = this.getComments.bind(this);
         this.comment = this.comment.bind(this);
         this.reply = this.reply.bind(this);
@@ -124,7 +125,7 @@ class App extends React.Component {
 
     comment(body) {
 
-        return this.props.postData('/create-comment', {
+        return this.props.postData('http://localhost:1337/create-comment', {
             body,
             authorName: this.state.authorName,
             blogPostId: this.props.blogPostId
@@ -133,7 +134,7 @@ class App extends React.Component {
 
     reply(body, commentId) {
 
-        return this.props.postData('/create-comment', {
+        return this.props.postData('http://localhost:1337/create-comment', {
             body,
             authorName: this.state.authorName,
             blogPostId: this.props.blogPostId,
@@ -143,7 +144,7 @@ class App extends React.Component {
 
     flag(commentId) {
 
-        return this.props.postData('/flag-comment', {
+        return this.props.postData('http://localhost:1337/flag-comment', {
             commentId: commentId
         });
     }
@@ -151,8 +152,13 @@ class App extends React.Component {
     disabledComponent() {
 
         return (
-            <form>
-                <input type="text" value={this.state.authorName} onChange={this.onChangeAuthorName} />
+            <form onSubmit={this.onSubmitAuthorName}>
+                <input
+                    type="text"
+                    placeholder="Enter your name to post a comment"
+                    value={this.state.authorName}
+                    onChange={this.onChangeAuthorName}
+                />
                 <button type="submit">Submit</button>
             </form>
         );

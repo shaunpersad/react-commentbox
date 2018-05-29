@@ -3,7 +3,7 @@ const client = contentful.createClient({
     accessToken: process.env.CONTENTFUL_CONTENT_MANAGEMENT_API_KEY
 });
 
-module.exports = function createComment(body, author, blogPost, parentComment, callback) {
+module.exports = function createComment(body, authorName, blogPostId, parentCommentId, callback) {
 
     client.getSpace(process.env.REACT_APP_SPACE_ID)
         .then(space => space.getEnvironment('master'))
@@ -13,14 +13,14 @@ module.exports = function createComment(body, author, blogPost, parentComment, c
                     'en-US': body
                 },
                 author: {
-                    'en-US': `${author}`
+                    'en-US': `${authorName}`
                 },
                 blogPost: {
                     'en-US': {
                         sys: {
                             type: 'Link',
                             linkType: 'Entry',
-                            id: blogPost
+                            id: blogPostId
                         }
                     }
                 },
@@ -29,7 +29,7 @@ module.exports = function createComment(body, author, blogPost, parentComment, c
                         sys: {
                             type: 'Link',
                             linkType: 'Entry',
-                            id: parentComment
+                            id: parentCommentId
                         }
                     }
                 }

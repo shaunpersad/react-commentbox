@@ -13,9 +13,9 @@ app.use(bodyParser.json());
 
 app.post('/create-comment', (req, res) => {
 
-    const { body, author, blogPost, parentComment } = req.body;
+    const { body, authorName, blogPostId, parentCommentId } = req.body;
 
-    createComment(body, author, blogPost, parentComment, (err) => {
+    createComment(body, authorName, blogPostId, parentCommentId, (err) => {
 
         if (err) {
             console.log('err', JSON.parse(err.message).details.errors);
@@ -27,9 +27,9 @@ app.post('/create-comment', (req, res) => {
 
 app.post('/flag-comment', (req, res) => {
 
-    const { comment } = req.body;
+    const { commentId } = req.body;
 
-    flagComment(comment, (err) => {
+    flagComment(commentId, (err) => {
 
         if (err) {
             console.log('err', JSON.parse(err.message).details.errors);

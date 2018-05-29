@@ -14,7 +14,11 @@ class CommentBox extends React.Component {
             contractedComments: {},
         };
 
+        this.comment = this.comment.bind(this);
+        this.reply = this.reply.bind(this);
+        this.clearInput = this.clearInput.bind(this);
         this.load = this.load.bind(this);
+
         this.onUpVote = this.onUpVote.bind(this);
         this.onDownVote = this.onDownVote.bind(this);
         this.onToggleContract = this.onToggleContract.bind(this);
@@ -34,16 +38,36 @@ class CommentBox extends React.Component {
         this.load();
     }
 
+    comment() {
+
+        return this.props.comment(this.state.comment)
+            .then(this.clearInput)
+            .then(this.load);
+    }
+
+    reply() {
+
+        return this.props.reply(this.state.reply, this.state.commentIdToReplyTo)
+            .then(this.clearInput)
+            .then(this.load);
+    }
+
+    clearInput() {
+
+        return this.setState({
+            comment: '',
+            reply: '',
+            commentIdToReplyTo: null
+        });
+    }
+
     load() {
 
         return this.props.getComments().then(comments => {
 
-            this.setState({
-                comments,
-                comment: '',
-                reply: '',
-                commentIdToReplyTo: null
-            });
+            this.setState({ comments });
+
+            return comments;
         });
     }
 
@@ -90,14 +114,14 @@ class CommentBox extends React.Component {
         
         e.preventDefault();
 
-        this.props.comment(this.state.comment).then(this.load);
+        this.comment();
     }
 
     onReply(e) {
 
         e.preventDefault();
 
-        this.props.reply(this.state.reply, this.state.commentIdToReplyTo).then(this.load);
+        this.reply();
     }
 
     onChangeComment(e) {
@@ -202,9 +226,20 @@ class CommentBox extends React.Component {
                                                 />
                                             </div>
                                             <div>
-                                                <button type="submit">{this.props.postReplyButtonContent}</button>
+                                                {
+                                                    (!this.props.disabled) ?
+                                                        (
+                                                            <button type="submit">{this.props.postReplyButtonContent}</button>
+                                                        ) : null
+                                                }
                                             </div>
                                         </form>
+                                        {this.props.disabled ? (
+                                            <this.props.disabledComponent
+                                                postComment={this.reply}
+                                                postButtonContent={this.props.postReplyButtonContent}
+                                            />
+                                        ) : null}
                                     </div>
                                 ) : null
                         }
@@ -212,7 +247,6 @@ class CommentBox extends React.Component {
                 </div>
             </li>
         );
-
     }
 
     joinRepliesToComments(comment) {
@@ -233,7 +267,7 @@ class CommentBox extends React.Component {
         return comments;
     }
 
-    get comments() {
+    get renderedComments() {
 
         if (!this.state.comments) {
             return (
@@ -244,16 +278,50 @@ class CommentBox extends React.Component {
         }
 
         const comments = [];
+        const renderedComments = [];
+        const references = {};
 
         this.state.comments.forEach(comment => {
 
+            const {
+                id,
+                flagged,
+                bodyDisplay,
+                userNameDisplay,
+                timestampDisplay,
+                belongsToAuthor,
+                parentCommentId
+            } = this.props.normalizeComment(comment);
+
+
+            references[id] = {
+                id,
+                flagged,
+                bodyDisplay,
+                userNameDisplay,
+                timestampDisplay,
+                belongsToAuthor,
+                replies: [],
+                level: 0
+            };
+
+            if (parentCommentId) {
+                references[parentCommentId].replies.push(references[id]);
+                references[id].level = references[parentCommentId].level + 1;
+            } else {
+                comments.push(references[id]);
+            }
+        });
+
+        comments.forEach(comment => {
+
             this.joinRepliesToComments(comment).forEach(comment => {
 
-                comments.push(this.renderComment(comment));
+                renderedComments.push(this.renderComment(comment));
             });
         });
 
-        return comments;
+        return renderedComments;
     }
 
 
@@ -264,16 +332,27 @@ class CommentBox extends React.Component {
                 <div className="header">
                     <form onSubmit={this.onComment}>
                         <div className="form-element">
-                            <textarea name="comment" rows={7} value={this.state.value} onChange={this.onChangeComment} />
+                            <textarea name="comment" rows={7} value={this.state.comment} onChange={this.onChangeComment} />
                         </div>
                         <div>
-                            <button type="submit">{this.props.postCommentButtonContent}</button>
+                            {
+                                (!this.props.disabled) ?
+                                    (
+                                        <button type="submit">{this.props.postCommentButtonContent}</button>
+                                    ) : null
+                            }
                         </div>
                     </form>
+                    {this.props.disabled ? (
+                        <this.props.disabledComponent
+                            postComment={this.comment}
+                            postButtonContent={this.props.postCommentButtonContent}
+                        />
+                    ) : null}
                 </div>
                 <div className="body">
                     <ul className="comments">
-                        {this.comments}
+                        {this.renderedComments}
                     </ul>
                 </div>
             </div>
@@ -294,6 +373,11 @@ class CommentBox extends React.Component {
         return new Promise();
     }
 
+    static normalizeComment(comment) {
+
+        return comment;
+    }
+
     static comment(commentBody) {
 
         return new Promise();
@@ -309,20 +393,32 @@ class CommentBox extends React.Component {
         return new Promise();
     }
 
+    static disabledComponent({ postComment, postButtonContent }) {
+
+        return (
+            <div>
+                Replace with a component that logs in your user or gets their name.
+            </div>
+        );
+    }
+
     static get defaultProps() {
 
         const {
             upVote,
             downVote,
             getComments,
+            normalizeComment,
             comment,
             reply,
-            flag
+            flag,
+            disabledComponent
         } = this;
 
         return {
+            disabled: true,
             usersHaveAvatars: false,
-            levelPadding: 15,
+            levelPadding: 25,
             loadingContent: 'Loading...',
             expandButtonContent: '[+]',
             contractButtonContent: '[-]',
@@ -332,9 +428,11 @@ class CommentBox extends React.Component {
             postCommentButtonContent: 'Post Comment',
             flagButtonContent: 'flag',
             flaggedContent: '(flagged)',
+            disabledComponent,
             upVote,
             downVote,
             getComments,
+            normalizeComment,
             comment,
             reply,
             flag

@@ -32,3 +32,8 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.commentbox ul.comments li.comment .comment-footer .timestamp {
+
+    padding-left: 5px;
+    padding-right: 5px;
+}

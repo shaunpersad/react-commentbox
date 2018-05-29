@@ -9,11 +9,11 @@ function log(fn, message) {
     return fn;
 }
 
-module.exports = function flagComment(comment, callback) {
+module.exports = function flagComment(commentId, callback) {
 
     client.getSpace(process.env.REACT_APP_SPACE_ID)
         .then(log(space => space.getEnvironment('master'), 'get space'))
-        .then(log(environment => environment.getEntry(comment), 'get environment'))
+        .then(log(environment => environment.getEntry(commentId), 'get environment'))
         .then(entry => {
 
             entry.fields.flagged = {

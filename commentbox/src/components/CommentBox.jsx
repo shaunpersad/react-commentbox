@@ -158,25 +158,32 @@ class CommentBox extends React.Component {
         }
 
         return (
-            <li className={classNames.join(' ')} key={comment.id}>
-                <div className={`level-${comment.level}`} style={{paddingLeft: this.props.levelPadding * comment.level}}>
-                    <div className="comment-content">
-                        <div className="comment-body">
+            <li className={classNames.map(className => this.prefix(className)).join(' ')} key={comment.id}>
+                <div
+                    className={this.prefix(`level-${comment.level}`)}
+                    style={{paddingLeft: this.props.levelPadding * comment.level}}
+                >
+                    <div className={this.prefix('comment-content')}>
+                        <div className={this.prefix('comment-body')}>
                             {comment.bodyDisplay}
                         </div>
-                        <div className="comment-footer">
+                        <div className={this.prefix('comment-footer')}>
                             {
                                 this.props.usersHaveAvatars ?
                                     (
-                                        <img className="user-avatar" src={comment.userAvatarUrl} />
+                                        <img className={this.prefix('user-avatar')} src={comment.userAvatarUrl} />
                                     ) : null
                             }
-                            <span className="user-name">{comment.userNameDisplay}</span>
-                            <span className="timestamp">{comment.timestampDisplay}</span>
+                            <span className={this.prefix('user-name')}>{comment.userNameDisplay}</span>
+                            <span className={this.prefix('timestamp')}>{comment.timestampDisplay}</span>
                             {
                                 (comment.replies.length > 0) ?
                                     (
-                                        <button className="toggle" value={comment.id} onClick={this.onToggleContract}>
+                                        <button
+                                            className={this.prefix('toggle')}
+                                            value={comment.id}
+                                            onClick={this.onToggleContract}
+                                        >
                                             {
                                                 this.state.contractedComments[comment.id] ?
                                                 this.props.expandButtonContent :
@@ -188,12 +195,16 @@ class CommentBox extends React.Component {
                             {
                                 (!comment.flagged) ?
                                     (
-                                        <button className="flag" value={comment.id} onClick={this.onFlag}>
+                                        <button
+                                            className={this.prefix('flag')}
+                                            value={comment.id}
+                                            onClick={this.onFlag}
+                                        >
                                             {this.props.flagButtonContent}
                                         </button>
                                     ) :
                                     (
-                                        <span className="flagged">
+                                        <span className={this.prefix('flagged')}>
                                             {this.props.flaggedContent}
                                         </span>
                                     )
@@ -201,12 +212,20 @@ class CommentBox extends React.Component {
                             {
                                 (this.state.commentIdToReplyTo === comment.id) ?
                                     (
-                                        <button className="hide-reply" value={comment.id} onClick={this.onHideReply}>
+                                        <button
+                                            className={this.prefix('hide-reply')}
+                                            value={comment.id}
+                                            onClick={this.onHideReply}
+                                        >
                                             {this.props.hideReplyButtonContent}
                                         </button>
 
                                     ) : (
-                                        <button className="show-reply" value={comment.id} onClick={this.onShowReply}>
+                                        <button
+                                            className={this.prefix('show-reply')}
+                                            value={comment.id}
+                                            onClick={this.onShowReply}
+                                        >
                                             {this.props.showReplyButtonContent}
                                         </button>
                                     )
@@ -214,13 +233,13 @@ class CommentBox extends React.Component {
 
                         </div>
                     </div>
-                    <div className="reply">
+                    <div className={this.prefix('reply')}>
                         {
                             (this.state.commentIdToReplyTo === comment.id) ?
                                 (
-                                    <div className="form-wrapper">
+                                    <div className={this.prefix('form-wrapper')}>
                                         <form onSubmit={this.onReply}>
-                                            <div className="form-element">
+                                            <div className={this.prefix('form-element')}>
                                                 <textarea
                                                     name="reply"
                                                     rows={7}
@@ -271,7 +290,7 @@ class CommentBox extends React.Component {
 
         if (!this.state.comments) {
             return (
-                <li className="loading">
+                <li className={this.prefix('loading')}>
                     {this.props.loadingContent}
                 </li>
             );
@@ -324,14 +343,18 @@ class CommentBox extends React.Component {
         return renderedComments;
     }
 
+    prefix(className) {
+
+        return `${this.props.prefix}${className}`;
+    }
 
     render() {
 
         return (
-            <div className="commentbox">
-                <div className="header">
+            <div className={this.props.className}>
+                <div className={this.prefix('header')}>
                     <form onSubmit={this.onComment}>
-                        <div className="form-element">
+                        <div className={this.prefix('form-element')}>
                             <textarea name="comment" rows={7} value={this.state.comment} onChange={this.onChangeComment} />
                         </div>
                         <div>
@@ -347,8 +370,8 @@ class CommentBox extends React.Component {
                         <this.props.disabledComponent {...this.props} />
                     ) : null}
                 </div>
-                <div className="body">
-                    <ul className="comments">
+                <div className={this.prefix('body')}>
+                    <ul className={this.prefix('comments')}>
                         {this.renderedComments}
                     </ul>
                 </div>
@@ -413,6 +436,8 @@ class CommentBox extends React.Component {
         } = this;
 
         return {
+            classPrefix: 'cb-',
+            className: 'commentbox',
             disabled: true,
             usersHaveAvatars: false,
             levelPadding: 25,

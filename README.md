@@ -10,6 +10,8 @@ npm install react-commentbox --save
 This component has the following default props:
 ```js
 const defaultProps = {
+    classPrefix: 'cb-', // prefixes every css class with this
+    className: 'commentbox', // the class name of the top-level element
     disabled: true, // disabled when there's no user/author name present
     usersHaveAvatars: false, // if true, your comments must have a userAvatarUrl field 
     levelPadding: 25, // how much to indent each nested comment

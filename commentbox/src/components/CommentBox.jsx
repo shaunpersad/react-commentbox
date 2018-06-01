@@ -238,7 +238,7 @@ class CommentBox extends React.Component {
                             (this.state.commentIdToReplyTo === comment.id) ?
                                 (
                                     <div className={this.prefix('form-wrapper')}>
-                                        <form onSubmit={this.onReply}>
+                                        <form className={this.prefix('reply-form')} onSubmit={this.onReply}>
                                             <div className={this.prefix('form-element')}>
                                                 <textarea
                                                     name="reply"
@@ -356,7 +356,7 @@ class CommentBox extends React.Component {
         return (
             <div className={this.props.className}>
                 <div className={this.prefix('header')}>
-                    <form onSubmit={this.onComment}>
+                    <form className={this.prefix('comment-form')} onSubmit={this.onComment}>
                         <div className={this.prefix('form-element')}>
                             <textarea
                                 name="comment"

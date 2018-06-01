@@ -58,7 +58,7 @@ class App extends React.Component {
             id,
             flagged,
             bodyDisplay: body,
-            userNameDisplay: author,
+            userNameDisplay: author.fields.displayName,
             timestampDisplay: createdAt.split('T')[0],
             belongsToAuthor: false,
             parentCommentId: parentComment ? parentComment.sys.id : null

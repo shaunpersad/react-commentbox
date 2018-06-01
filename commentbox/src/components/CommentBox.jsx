@@ -192,23 +192,14 @@ class CommentBox extends React.Component {
                                         </button>
                                     ) : null
                             }
-                            {
-                                (!comment.flagged) ?
-                                    (
-                                        <button
-                                            className={this.prefix('flag')}
-                                            value={comment.id}
-                                            onClick={this.onFlag}
-                                        >
-                                            {this.props.flagButtonContent}
-                                        </button>
-                                    ) :
-                                    (
-                                        <span className={this.prefix('flagged')}>
-                                            {this.props.flaggedContent}
-                                        </span>
-                                    )
-                            }
+                            <button
+                                className={this.prefix('flag')}
+                                value={comment.id}
+                                onClick={this.onFlag}
+                                disabled={comment.flagged}
+                            >
+                                {comment.flagged ? this.props.flagButtonDisabledContent : this.props.flagButtonContent}
+                            </button>
                             {
                                 (this.state.commentIdToReplyTo === comment.id) ?
                                     (
@@ -459,7 +450,7 @@ class CommentBox extends React.Component {
             postReplyButtonContent: 'Post Reply',
             postCommentButtonContent: 'Post Comment',
             flagButtonContent: 'flag',
-            flaggedContent: '(flagged)',
+            flagButtonDisabledContent: '(flagged)',
             disabledComponent,
             upVote,
             downVote,

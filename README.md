@@ -16,15 +16,15 @@ const defaultProps = {
     usersHaveAvatars: false, // if true, your comments must have a userAvatarUrl field 
     levelPadding: 25, // how much to indent each nested comment
     textareaRows: 7, // number of rows initially visible in the textarea
-    loadingContent: 'Loading...', // can be a string or a component
-    expandButtonContent: '[+]', // can be a string or a component
-    contractButtonContent: '[-]', // can be a string or a component
-    showReplyButtonContent: 'reply', // can be a string or a component
-    hideReplyButtonContent: 'cancel', // can be a string or a component
-    postReplyButtonContent: 'Post Reply', // can be a string or a component
-    postCommentButtonContent: 'Post Comment', // can be a string or a component
-    flagButtonContent: 'flag', // can be a string or a component
-    flaggedContent: '(flagged)', // can be a string or a component
+    loadingContent: 'Loading...', // can be a string or instance of a component
+    expandButtonContent: '[+]', // can be a string or instance of a component
+    contractButtonContent: '[-]', // can be a string or instance of a component
+    showReplyButtonContent: 'reply', // can be a string or instance of a component
+    hideReplyButtonContent: 'cancel', // can be a string or instance of a component
+    postReplyButtonContent: 'Post Reply', // can be a string or instance of a component
+    postCommentButtonContent: 'Post Comment', // can be a string or instance of a component
+    flagButtonContent: 'flag', // can be a string or instance of a component
+    flagButtonDisabledContent: '(flagged)', // can be a string or instance of a component
     disabledComponent: React.Component, // what to show when the user isn't logged in or there's no author info to use
     normalizeComment: (comment) => { // turns your comment object into an object the component expects
         return {

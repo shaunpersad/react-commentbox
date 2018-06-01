@@ -242,9 +242,10 @@ class CommentBox extends React.Component {
                                             <div className={this.prefix('form-element')}>
                                                 <textarea
                                                     name="reply"
-                                                    rows={7}
+                                                    rows={this.props.textareaRows}
                                                     value={this.state.reply}
                                                     onChange={this.onChangeReply}
+                                                    disabled={this.props.disabled}
                                                 />
                                             </div>
                                             <div>
@@ -355,7 +356,13 @@ class CommentBox extends React.Component {
                 <div className={this.prefix('header')}>
                     <form onSubmit={this.onComment}>
                         <div className={this.prefix('form-element')}>
-                            <textarea name="comment" rows={7} value={this.state.comment} onChange={this.onChangeComment} />
+                            <textarea
+                                name="comment"
+                                rows={this.props.textareaRows}
+                                value={this.state.comment}
+                                onChange={this.onChangeComment}
+                                disabled={this.props.disabled}
+                            />
                         </div>
                         <div>
                             {
@@ -441,6 +448,7 @@ class CommentBox extends React.Component {
             disabled: true,
             usersHaveAvatars: false,
             levelPadding: 25,
+            textareaRows: 7,
             loadingContent: 'Loading...',
             expandButtonContent: '[+]',
             contractButtonContent: '[-]',

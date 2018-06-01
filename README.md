@@ -15,6 +15,7 @@ const defaultProps = {
     disabled: true, // disabled when there's no user/author name present
     usersHaveAvatars: false, // if true, your comments must have a userAvatarUrl field 
     levelPadding: 25, // how much to indent each nested comment
+    textareaRows: 7, // number of rows initially visible in the textarea
     loadingContent: 'Loading...', // can be a string or a component
     expandButtonContent: '[+]', // can be a string or a component
     contractButtonContent: '[-]', // can be a string or a component

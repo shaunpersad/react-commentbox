@@ -345,7 +345,7 @@ class CommentBox extends React.Component {
 
     prefix(className) {
 
-        return `${this.props.prefix}${className}`;
+        return `${this.props.classPrefix}${className}`;
     }
 
     render() {

@@ -160,7 +160,6 @@ class CommentBox extends React.Component {
             <div className={classNames.map(className => this.prefix(className)).join(' ')}>
                 <div
                     className={this.prefix(`level-${comment.level}`)}
-                    style={{paddingLeft: this.props.levelPadding * comment.level}}
                 >
                     <div className={this.prefix('comment-content')}>
                         <div className={this.prefix('comment-body')}>
@@ -271,7 +270,10 @@ class CommentBox extends React.Component {
             return (
                 <li key={comment.id} className={this.prefix('comment-and-replies')}>
                     {this.renderComment(comment)}
-                    <ul className={this.prefix('replies')}>
+                    <ul
+                        className={this.prefix('replies')}
+                        style={{paddingLeft: this.props.levelPadding * (comment.level + 1)}}
+                    >
                         {this.state.contractedComments[comment.id] ? null : this.renderComments(comment.replies)}
                     </ul>
                 </li>

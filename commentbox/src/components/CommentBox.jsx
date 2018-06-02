@@ -248,7 +248,9 @@ class CommentBox extends React.Component {
                                                             <button type="submit">{this.props.postReplyButtonContent}</button>
                                                         ) : null
                                                 }
-                                                {this.props.postButtonExtraContent}
+                                                {
+                                                    (!this.props.disabled) ? this.props.postButtonExtraContent : null
+                                                }
                                             </div>
                                         </form>
                                         {this.props.disabled ? (
@@ -272,7 +274,7 @@ class CommentBox extends React.Component {
                     {this.renderComment(comment)}
                     <ul
                         className={this.prefix('replies')}
-                        style={{paddingLeft: this.props.levelPadding * (comment.level + 1)}}
+                        style={{paddingLeft: this.props.levelPadding}}
                     >
                         {this.state.contractedComments[comment.id] ? null : this.renderComments(comment.replies)}
                     </ul>
@@ -358,7 +360,9 @@ class CommentBox extends React.Component {
                                         <button type="submit">{this.props.postCommentButtonContent}</button>
                                     ) : null
                             }
-                            {this.props.postButtonExtraContent}
+                            {
+                                (!this.props.disabled) ? this.props.postButtonExtraContent : null
+                            }
                         </div>
                     </form>
                     {this.props.disabled ? (

@@ -12,27 +12,27 @@
 
 }
 
-.commentbox ul.comments {
+ul {
     padding: 0;
     margin: 0;
 }
 
-.commentbox ul.comments li.comment {
+ul li {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
 
-.commentbox ul.comments li.comment.replying-to > div {
+.commentbox ul li.replying-to > div {
     background: gray;
 }
 
-.commentbox ul.comments li.comment .comment-content {
+.commentbox ul li .comment-content {
 
     padding-top: 15px;
     padding-bottom: 15px;
 }
-.commentbox ul.comments li.comment .comment-footer .timestamp {
+.commentbox ul li .comment-footer .timestamp {
 
     padding-left: 5px;
     padding-right: 5px;

@@ -29,7 +29,6 @@ class CommentBox extends React.Component {
         this.renderComment = this.renderComment.bind(this);
         this.onChangeComment = this.onChangeComment.bind(this);
         this.onChangeReply = this.onChangeReply.bind(this);
-        this.joinRepliesToComments = this.joinRepliesToComments.bind(this);
         this.onFlag = this.onFlag.bind(this);
     }
 
@@ -158,7 +157,7 @@ class CommentBox extends React.Component {
         }
 
         return (
-            <li className={classNames.map(className => this.prefix(className)).join(' ')} key={comment.id}>
+            <div className={classNames.map(className => this.prefix(className)).join(' ')}>
                 <div
                     className={this.prefix(`level-${comment.level}`)}
                     style={{paddingLeft: this.props.levelPadding * comment.level}}
@@ -171,7 +170,11 @@ class CommentBox extends React.Component {
                             {
                                 this.props.usersHaveAvatars ?
                                     (
-                                        <img className={this.prefix('user-avatar')} src={comment.userAvatarUrl} />
+                                        <img
+                                            className={this.prefix('user-avatar')}
+                                            src={comment.userAvatarUrl}
+                                            alt={comment.userNameDisplay}
+                                        />
                                     ) : null
                             }
                             <span className={this.prefix('user-name')}>{comment.userNameDisplay}</span>
@@ -256,26 +259,23 @@ class CommentBox extends React.Component {
                         }
                     </div>
                 </div>
-            </li>
+            </div>
         );
     }
 
-    joinRepliesToComments(comment) {
+    renderComments(comments) {
 
-        const comments = [ comment ];
+        return comments.map(comment => {
 
-        if (!this.state.contractedComments[comment.id]) {
-
-            comment.replies.forEach(comment => {
-
-                this.joinRepliesToComments(comment).forEach(comment => {
-
-                    comments.push(comment);
-                });
-            });
-        }
-
-        return comments;
+            return (
+                <li key={comment.id} className={this.prefix('comment-and-replies')}>
+                    {this.renderComment(comment)}
+                    <ul className={this.prefix('replies')}>
+                        {this.state.contractedComments[comment.id] ? null : this.renderComments(comment.replies)}
+                    </ul>
+                </li>
+            );
+        });
     }
 
     get renderedComments() {
@@ -289,7 +289,6 @@ class CommentBox extends React.Component {
         }
 
         const comments = [];
-        const renderedComments = [];
         const references = {};
 
         this.state.comments.forEach(comment => {
@@ -326,15 +325,7 @@ class CommentBox extends React.Component {
             }
         });
 
-        comments.forEach(comment => {
-
-            this.joinRepliesToComments(comment).forEach(comment => {
-
-                renderedComments.push(this.renderComment(comment));
-            });
-        });
-
-        return renderedComments;
+        return this.renderComments(comments);
     }
 
     prefix(className) {

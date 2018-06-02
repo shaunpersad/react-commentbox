@@ -249,6 +249,7 @@ class CommentBox extends React.Component {
                                                             <button type="submit">{this.props.postReplyButtonContent}</button>
                                                         ) : null
                                                 }
+                                                {this.props.postButtonExtraContent}
                                             </div>
                                         </form>
                                         {this.props.disabled ? (
@@ -355,6 +356,7 @@ class CommentBox extends React.Component {
                                         <button type="submit">{this.props.postCommentButtonContent}</button>
                                     ) : null
                             }
+                            {this.props.postButtonExtraContent}
                         </div>
                     </form>
                     {this.props.disabled ? (
@@ -442,6 +444,7 @@ class CommentBox extends React.Component {
             postCommentButtonContent: 'Post Comment',
             flagButtonContent: 'flag',
             flagButtonDisabledContent: '(flagged)',
+            postButtonExtraContent: null,
             disabledComponent,
             upVote,
             downVote,

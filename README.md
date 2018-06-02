@@ -25,6 +25,7 @@ const defaultProps = {
     postCommentButtonContent: 'Post Comment', // can be a string or instance of a component
     flagButtonContent: 'flag', // can be a string or instance of a component
     flagButtonDisabledContent: '(flagged)', // can be a string or instance of a component
+    postButtonExtraContent: null, // placed next to the comment and reply buttons, can be a string or instance of a component
     disabledComponent: React.Component, // what to show when the user isn't logged in or there's no author info to use
     normalizeComment: (comment) => { // turns your comment object into an object the component expects
         return {

@@ -4,7 +4,7 @@ import { createClient } from 'contentful';
 
 import registerServiceWorker from './registerServiceWorker';
 
-import App from './components/App.jsx';
+import MyCommentBox from './components/MyCommentBox.jsx';
 
 
 function postData(url, data) {
@@ -27,5 +27,5 @@ const contentfulClient = createClient({
 
 const blogPostId = process.env.REACT_APP_BLOG_POST_ID;
 
-ReactDOM.render(React.createElement(App, { postData, contentfulClient, blogPostId }), document.getElementById('root'));
+ReactDOM.render(React.createElement(MyCommentBox, { postData, contentfulClient, blogPostId }), document.getElementById('root'));
 registerServiceWorker();

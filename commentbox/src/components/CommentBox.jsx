@@ -29,7 +29,6 @@ class CommentBox extends React.Component {
         this.renderComment = this.renderComment.bind(this);
         this.onChangeComment = this.onChangeComment.bind(this);
         this.onChangeReply = this.onChangeReply.bind(this);
-        this.onFlag = this.onFlag.bind(this);
     }
 
     componentDidMount() {
@@ -46,7 +45,7 @@ class CommentBox extends React.Component {
 
     reply() {
 
-        return this.props.reply(this.state.reply, this.state.commentIdToReplyTo)
+        return this.props.comment(this.state.reply, this.state.commentIdToReplyTo)
             .then(this.clearInput)
             .then(this.load);
     }
@@ -137,11 +136,6 @@ class CommentBox extends React.Component {
         });
     }
 
-    onFlag(e) {
-
-        this.props.flag(e.currentTarget.value).then(this.load);
-    }
-
     renderComment(comment) {
 
         const classNames = ['comment'];
@@ -152,9 +146,11 @@ class CommentBox extends React.Component {
         if (comment.belongsToAuthor) {
             classNames.push('belongs-to-author');
         }
-        if (comment.flagged) {
-            classNames.push('flagged');
+
+        if (comment.className) {
+            classNames.push(comment.className);
         }
+
 
         return (
             <div className={classNames.map(className => this.prefix(className)).join(' ')}>
@@ -194,14 +190,6 @@ class CommentBox extends React.Component {
                                         </button>
                                     ) : null
                             }
-                            <button
-                                className={this.prefix('flag')}
-                                value={comment.id}
-                                onClick={this.onFlag}
-                                disabled={comment.flagged}
-                            >
-                                {comment.flagged ? this.props.flagButtonDisabledContent : this.props.flagButtonContent}
-                            </button>
                             {
                                 (this.state.commentIdToReplyTo === comment.id) ?
                                     (
@@ -300,26 +288,28 @@ class CommentBox extends React.Component {
 
             const {
                 id,
-                flagged,
+                votes,
                 bodyDisplay,
                 userAvatarUrl,
                 userNameDisplay,
                 timestampDisplay,
                 belongsToAuthor,
-                parentCommentId
+                parentCommentId,
+                className
             } = this.props.normalizeComment(comment);
 
 
             references[id] = {
                 id,
-                flagged,
+                votes,
                 bodyDisplay,
                 userAvatarUrl,
                 userNameDisplay,
                 timestampDisplay,
                 belongsToAuthor,
                 replies: [],
-                level: 0
+                level: 0,
+                className
             };
 
             if (parentCommentId) {
@@ -397,17 +387,7 @@ class CommentBox extends React.Component {
         return comment;
     }
 
-    static comment(commentBody) {
-
-        return new Promise();
-    }
-
-    static reply(replyBody, commentIdToReplyTo) {
-
-        return new Promise();
-    }
-
-    static flag(commentId) {
+    static comment(body, parentCommentId = null) {
 
         return new Promise();
     }
@@ -429,8 +409,6 @@ class CommentBox extends React.Component {
             getComments,
             normalizeComment,
             comment,
-            reply,
-            flag,
             disabledComponent
         } = this;
 
@@ -448,17 +426,13 @@ class CommentBox extends React.Component {
             hideReplyButtonContent: 'cancel',
             postReplyButtonContent: 'Post Reply',
             postCommentButtonContent: 'Post Comment',
-            flagButtonContent: 'flag',
-            flagButtonDisabledContent: '(flagged)',
             postButtonExtraContent: null,
             disabledComponent,
             upVote,
             downVote,
             getComments,
             normalizeComment,
-            comment,
-            reply,
-            flag
+            comment
         };
     }
 }

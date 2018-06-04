@@ -19,7 +19,7 @@ services:
     command: npm start
     env_file: .env.local
     ports:
-      - '3000:3000'
+      - '3001:3000'
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules

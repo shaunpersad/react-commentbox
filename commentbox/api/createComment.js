@@ -7,7 +7,7 @@ module.exports = function createComment(body, authorName, blogPostId, parentComm
 
     client.getSpace(process.env.REACT_APP_SPACE_ID)
         .then(space => space.getEnvironment('master'))
-        .then(environment => environment.createEntry(process.env.REACT_APP_COMMENT_CONTENT_TYPE_ID, {
+        .then(environment => environment.createEntry('comment', {
             fields: {
                 body: {
                     'en-US': body
@@ -35,6 +35,7 @@ module.exports = function createComment(body, authorName, blogPostId, parentComm
                 }
             }
         }))
+        .then(entry => entry.publish())
         .then((entry) => callback(null, entry))
         .catch(callback);
 };

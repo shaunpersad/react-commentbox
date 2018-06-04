@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const createComment = require('./createComment');
-const flagComment = require('./flagComment');
 
 const app = express();
 
@@ -25,19 +24,6 @@ app.post('/create-comment', (req, res) => {
     });
 });
 
-app.post('/flag-comment', (req, res) => {
-
-    const { commentId } = req.body;
-
-    flagComment(commentId, (err) => {
-
-        if (err) {
-            console.log('err', JSON.parse(err.message).details.errors);
-            return res.status(500).send({ message: 'error' });
-        }
-        return res.status(200).send({ message: 'ok' });
-    });
-});
 
 app.listen(1337, () => {
 
